@@ -1,10 +1,15 @@
 import express from 'express';
 import cookieParser from 'cookie-parser';
+import mongoose from "mongoose";
 
 import config from './config.js';
 // import user from './user.js';
 import * as discord from './discord.js';
 import * as storage from './storage.js';
+
+mongoose.connect(process.env.MONGOOSE_URI, { useNewUrlParser: true })
+  .then(() => console.log('MongoDB Conneted'))
+  .catch(err => console.log(err));
 
 /**
  * Main HTTP server used for the bot.
@@ -112,20 +117,38 @@ async function updateMetadata(userId) {
     // is going to be different.  To keep the example simple, we'll
     // just generate some random data. 
 
-    // const query = user.findeOne({ user: userId })
+    const users = mongoose.model('user', {
+      since: { type: String },
+      user: { type: String },
+      nowcharacter: { type: String },
+      profileconnect: { type: Boolean },
+      description: { type: String },
+      zzzconnect: { type: String },
+      uid: { type: Number },
+      dailycheckin: { type: Boolean },
+      zzzcreatedat: { type: String },
+      zzzlevel: { type: Number }
+    });
 
+    users.findOne({ user: userId }).then((result) => {
+      console.log(result)
+      const profileconnect = result.profileconnect ? "1" : "0" // 0 for false, 1 for true
+      const zzzconnect = result.zzzconnect ? "1" : "0" // 0 for false, 1 for true
+      const zzzcreatedat = result.zzzcreatedat ? result.zzzcreatedat : "0" // 0 for false, 1 for true
+      const zzzlevel = result.zzzlevel ? "1" : "0" // 0 for false, 1 for true
+      metadata = {
+        profileconnect: profileconnect,
+        zzzconnect: zzzconnect,
+        zzzcreatedat: zzzcreatedat,
+        zzzlevel: zzzlevel,
+      }
+    })
     // metadata = {
-    //   profileconnect: query.profileconnect ? "1" : "0", // 0 for false, 1 for true
-    //   zzzconnect: query.zzzconnect ? "1" : "0", // 0 for false, 1 for true
-    //   zzzcreatedat: query.ZZZCreatedAt ? query.ZZZCreatedAt : "0", // 0 for false, 1 for true
-    //   zzzlevel: query.ZZZLevel ? query.ZZZLevel : "0", // 0 for false, 1 for true
+    //   profileconnect: 1,
+    //   zzzconnect: 1,
+    //   zzzcreatedat: '2020-12-25',
+    //   zzzlevel: 67,
     // };
-    metadata = {
-      profileconnect: 1,
-      zzzconnect: 1,
-      zzzcreatedat: '2020-12-25',
-      zzzlevel: 67,
-    };
   } catch (e) {
     e.message = `Error fetching external data: ${e.message}`;
     console.error(e);

@@ -30,7 +30,7 @@ const body = [
   {
     key: 'zzzlevel',
     name: '레벨',
-    description: 'ZZZ 레벨 여부 확인 (크거나 동일)',
+    description: 'ZZZ 레벨 확인 (더 높거나 동일)',
     type: 2,
   },
 ];
