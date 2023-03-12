@@ -79,7 +79,7 @@ app.get('/discord-oauth-callback', async (req, res) => {
     // 3. Update the users metadata, assuming future updates will be posted to the `/update-metadata` endpoint
     await updateMetadata(userId);
 
-    res.send('임무 완료. 이제 디스코드로 돌아가.');
+    res.send(`임무 완료. ${meData.user.username}, 이제 디스코드로 돌아가.`);
   } catch (e) {
     console.error(e);
     res.sendStatus(500);
