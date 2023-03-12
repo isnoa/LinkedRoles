@@ -7,6 +7,7 @@ import config from './config.js';
  */
 const url = `https://discord.com/api/v10/applications/${config.DISCORD_CLIENT_ID}/role-connections/metadata`;
 // supported types: number_lt=1, number_gt=2, number_eq=3 number_neq=4, datetime_lt=5, datetime_gt=6, boolean_eq=7, boolean_neq=8
+// https://discord.com/developers/docs/resources/application-role-connection-metadata#application-role-connection-metadata-object-application-role-connection-metadata-type
 const body = [
   {
     key: 'profileconnect',
@@ -29,7 +30,7 @@ const body = [
   {
     key: 'zzzlevel',
     name: '레벨',
-    description: 'ZZZ 레벨 여부 확인',
+    description: 'ZZZ 레벨 여부 확인 (크거나 동일)',
     type: 2,
   },
 ];
