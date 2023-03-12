@@ -61,7 +61,7 @@ app.get('/discord-oauth-callback', async (req, res) => {
     // make sure the state parameter exists
     const { clientState } = req.signedCookies;
     if (clientState !== discordState) {
-      console.error('State verification failed.');
+      console.error('상태 확인에 실패했어.');
       return res.sendStatus(403);
     }
 
@@ -79,7 +79,7 @@ app.get('/discord-oauth-callback', async (req, res) => {
     // 3. Update the users metadata, assuming future updates will be posted to the `/update-metadata` endpoint
     await updateMetadata(userId);
 
-    res.send('You did it! Now go back to Discord.');
+    res.send('임무 완료. 이제 디스코드로 돌아가.');
   } catch (e) {
     console.error(e);
     res.sendStatus(500);
@@ -134,7 +134,6 @@ async function updateMetadata(userId) {
     const zzzconnect = query.zzzconnect ? "1" : "0"
     const zzzcreatedat = query.zzzcreatedat ? query.zzzcreatedat : "0"
     const zzzlevel = query.zzzlevel ? query.zzzlevel : "0"
-    console.log(zzzcreatedat)
 
     metadata = {
       profileconnect: profileconnect,
@@ -146,7 +145,7 @@ async function updateMetadata(userId) {
     // Push the data to Discord.
     discord.pushMetadata(userId, tokens, metadata);
   }).catch(e => {
-    e.message = `Error fetching external data: ${e.message}`;
+    e.message = `외부 데이터를 가져오는 동안 오류가 발생했어: ${e.message}`;
     console.error(e);
   })
 }

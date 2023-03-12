@@ -4,19 +4,6 @@ import fetch from 'node-fetch';
 import * as storage from './storage.js';
 import config from './config.js';
 
-/**
- * Code specific to communicating with the Discord API.
- */
-
-/**
- * The following methods all facilitate OAuth2 communication with Discord.
- * See https://discord.com/developers/docs/topics/oauth2 for more details.
- */
-
-/**
- * Generate the url which the user will be directed to in order to approve the
- * bot, and see the list of requested scopes.
- */
 export function getOAuthUrl() {
   const state = crypto.randomUUID();
 
@@ -55,7 +42,7 @@ export async function getOAuthTokens(code) {
     const data = await response.json();
     return data;
   } else {
-    throw new Error(`Error fetching OAuth tokens: [${response.status}] ${response.statusText}`);
+    throw new Error(`OAuth 토큰을 가져오는 동안 오류가 발생했어: [${response.status}] ${response.statusText}`);
   }
 }
 
@@ -87,7 +74,7 @@ export async function getAccessToken(userId, tokens) {
       await storage.storeDiscordTokens(userId, tokens);
       return tokens.access_token;
     } else {
-      throw new Error(`Error refreshing access token: [${response.status}] ${response.statusText}`);
+      throw new Error(`액세스 토큰을 새로 고치는 동안 오류가 발생했어: [${response.status}] ${response.statusText}`);
     }
   }
   return tokens.access_token;
@@ -107,7 +94,7 @@ export async function getUserData(tokens) {
     const data = await response.json();
     return data;
   } else {
-    throw new Error(`Error fetching user data: [${response.status}] ${response.statusText}`);
+    throw new Error(`너에 관한 데이터를 가져오는 동안 오류가 발생했어: [${response.status}] ${response.statusText}`);
   }
 }
 
@@ -132,7 +119,7 @@ export async function pushMetadata(userId, tokens, metadata) {
     },
   });
   if (!response.ok) {
-    throw new Error(`Error pushing discord metadata: [${response.status}] ${response.statusText}`);
+    throw new Error(`Discord metadata를 푸시하는 동안 오류가 발생했어: [${response.status}] ${response.statusText}`);
   }
 }
 
@@ -153,6 +140,6 @@ export async function getMetadata(userId, tokens) {
     const data = await response.json();
     return data;
   } else {
-    throw new Error(`Error getting discord metadata: [${response.status}] ${response.statusText}`);
+    throw new Error(`Discord metadata를 가져오는 동안 오류가 발생했어: [${response.status}] ${response.statusText}`);
   }
 }
