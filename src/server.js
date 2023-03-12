@@ -79,7 +79,7 @@ app.get('/discord-oauth-callback', async (req, res) => {
     // 3. Update the users metadata, assuming future updates will be posted to the `/update-metadata` endpoint
     await updateMetadata(userId);
 
-    res.send('You did it!  Now go back to Discord.');
+    res.send('You did it! Now go back to Discord.');
   } catch (e) {
     console.error(e);
     res.sendStatus(500);
@@ -111,55 +111,44 @@ async function updateMetadata(userId) {
   const tokens = await storage.getDiscordTokens(userId);
 
   let metadata = {};
-  try {
-    // Fetch the new metadata you want to use from an external source. 
-    // This data could be POST-ed to this endpoint, but every service
-    // is going to be different.  To keep the example simple, we'll
-    // just generate some random data. 
+  // Fetch the new metadata you want to use from an external source. 
+  // This data could be POST-ed to this endpoint, but every service
+  // is going to be different.  To keep the example simple, we'll
+  // just generate some random data. 
 
-    const users = mongoose.model('user', {
-      since: { type: String },
-      user: { type: String },
-      nowcharacter: { type: String },
-      profileconnect: { type: Boolean },
-      description: { type: String },
-      zzzconnect: { type: String },
-      uid: { type: Number },
-      dailycheckin: { type: Boolean },
-      zzzcreatedat: { type: String },
-      zzzlevel: { type: Number }
-    });
+  const users = mongoose.model('user', {
+    since: { type: String },
+    user: { type: String },
+    nowcharacter: { type: String },
+    profileconnect: { type: Boolean },
+    description: { type: String },
+    zzzconnect: { type: String },
+    uid: { type: Number },
+    dailycheckin: { type: Boolean },
+    zzzcreatedat: { type: String },
+    zzzlevel: { type: Number }
+  });
 
-    users.findOne({ user: userId }).then((result) => {
-      console.log(result)
-      const profileconnect = result.profileconnect ? "1" : "0" // 0 for false, 1 for true
-      const zzzconnect = result.zzzconnect ? "1" : "0" // 0 for false, 1 for true
-      const zzzcreatedat = result.zzzcreatedat ? result.zzzcreatedat : "0" // 0 for false, 1 for true
-      const zzzlevel = result.zzzlevel ? "1" : "0" // 0 for false, 1 for true
-      metadata = {
-        profileconnect: profileconnect,
-        zzzconnect: zzzconnect,
-        zzzcreatedat: zzzcreatedat,
-        zzzlevel: zzzlevel,
-      }
-    })
-    // metadata = {
-    //   profileconnect: 1,
-    //   zzzconnect: 1,
-    //   zzzcreatedat: '2020-12-25',
-    //   zzzlevel: 67,
-    // };
-  } catch (e) {
+  users.findOne({ user: userId }).then((query) => {
+    const profileconnect = query.profileconnect ? "1" : "0"
+    const zzzconnect = query.zzzconnect ? "1" : "0"
+    const zzzcreatedat = query.zzzcreatedat ? query.zzzcreatedat : "0"
+    const zzzlevel = query.zzzlevel ? query.zzzlevel : "0"
+    console.log(zzzcreatedat)
+
+    metadata = {
+      profileconnect: profileconnect,
+      zzzconnect: zzzconnect,
+      zzzcreatedat: zzzcreatedat,
+      zzzlevel: zzzlevel,
+    }
+
+    // Push the data to Discord.
+    discord.pushMetadata(userId, tokens, metadata);
+  }).catch(e => {
     e.message = `Error fetching external data: ${e.message}`;
     console.error(e);
-    // If fetching the profile data for the external service fails for any reason,
-    // ensure metadata on the Discord side is nulled out. This prevents cases
-    // where the user revokes an external app permissions, and is left with
-    // stale linked role data.
-  }
-
-  // Push the data to Discord.
-  await discord.pushMetadata(userId, tokens, metadata);
+  })
 }
 
 
