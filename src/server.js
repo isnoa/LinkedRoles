@@ -3,7 +3,6 @@ import cookieParser from 'cookie-parser';
 import mongoose from "mongoose";
 
 import config from './config.js';
-// import user from './user.js';
 import * as discord from './discord.js';
 import * as storage from './storage.js';
 
