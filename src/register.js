@@ -10,7 +10,7 @@ const url = `https://discord.com/api/v10/applications/${config.DISCORD_CLIENT_ID
 // https://discord.com/developers/docs/resources/application-role-connection-metadata#application-role-connection-metadata-object-application-role-connection-metadata-type
 const body = [
   {
-    key: 'profileconnect',
+    key: 'viewprofile',
     name: '프로필 공개',
     description: '프로필 공개 여부 확인',
     type: 7,
@@ -22,7 +22,7 @@ const body = [
     type: 7,
   },
   {
-    key: 'zzzcreatedat',
+    key: 'zzzdate',
     name: '연동 일자',
     description: 'ZZZ 연동 일자 확인',
     type: 6,
