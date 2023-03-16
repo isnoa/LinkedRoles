@@ -116,16 +116,16 @@ async function updateMetadata(userId) {
   // just generate some random data. 
 
   const users = mongoose.model('user', {
-    since: { type: String },
     user: { type: String },
+    timestamp: { type: String },
     nowcharacter: { type: String },
-    profileconnect: { type: Boolean },
-    description: { type: String },
+    viewprofile: { type: Boolean },
+    introduce: { type: String },
     zzzconnect: { type: String },
     uid: { type: Number },
-    dailycheckin: { type: Boolean },
-    zzzcreatedat: { type: String },
-    zzzlevel: { type: Number }
+    zzzdate: { type: String },
+    zzzlevel: { type: Number },
+    dailycheckin: { type: Boolean }
   });
 
   users.findOne({ user: userId }).then((query) => {
