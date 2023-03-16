@@ -129,15 +129,15 @@ async function updateMetadata(userId) {
   });
 
   users.findOne({ user: userId }).then((query) => {
-    const profileconnect = query.profileconnect ? "1" : "0"
+    const viewprofile = query.viewprofile ? "1" : "0"
     const zzzconnect = query.zzzconnect ? "1" : "0"
-    const zzzcreatedat = query.zzzcreatedat ? query.zzzcreatedat : "0"
+    const zzzdate = query.zzzdate ? query.zzzdate : "0"
     const zzzlevel = query.zzzlevel ? query.zzzlevel : "0"
 
     metadata = {
-      profileconnect: profileconnect,
+      viewprofile: viewprofile,
       zzzconnect: zzzconnect,
-      zzzcreatedat: zzzcreatedat,
+      zzzdate: zzzdate,
       zzzlevel: zzzlevel,
     }
 
