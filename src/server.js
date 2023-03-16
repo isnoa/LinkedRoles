@@ -118,7 +118,7 @@ async function updateMetadata(userId) {
   const users = mongoose.model('user', {
     user: { type: String },
     timestamp: { type: String },
-    nowcharacter: { type: String },
+    lastcharacter: { type: String },
     viewprofile: { type: Boolean },
     introduce: { type: String },
     zzzconnect: { type: String },
