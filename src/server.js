@@ -115,7 +115,7 @@ async function updateMetadata(userId) {
   // is going to be different.  To keep the example simple, we'll
   // just generate some random data. 
 
-  const users = mongoose.model('user', {
+  const users = mongoose.models.user || mongoose.model('user', {
     user: { type: String },
     timestamp: { type: String },
     lastcharacter: { type: String },
