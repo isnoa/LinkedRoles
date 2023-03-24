@@ -128,17 +128,46 @@ async function updateMetadata(userId) {
     dailycheckin: { type: Boolean }
   });
 
-  users.findOne({ user: userId }).then((query) => {
-    const viewprofile = query.viewprofile ? "1" : "0"
-    const zzzconnect = query.zzzconnect ? "1" : "0"
-    const zzzdate = query.zzzdate ? query.zzzdate : "0"
-    const zzzlevel = query.zzzlevel ? query.zzzlevel : "0"
+  users.findOne({ user: userId }).then((db) => {
+    const DB1 = db.viewprofile;
+    const DB2 = db.zzzconnect;
+    const DB3 = db.zzzdate;
+    const DB4 = db.zzzlevel;
+
+    function ViewProfile(DB1) {
+      if(DB1 === true) {
+        return "1";
+      } else {
+        return "0";
+      }
+    }
+    function ZZZConnect(DB2) {
+      if(!!DB2 === true) {
+        return "1";
+      } else {
+        return "0";
+      }
+    }
+    function ZZZDate(DB3) {
+      if(!!DB3 === true) {
+        return DB3;
+      } else {
+        return "0";
+      }
+    }
+    function ZZZLevel(DB4) {
+      if(!!DB4 === true) {
+        return DB4;
+      } else {
+        return "0";
+      }
+    }
 
     metadata = {
-      viewprofile: viewprofile,
-      zzzconnect: zzzconnect,
-      zzzdate: zzzdate,
-      zzzlevel: zzzlevel,
+      viewprofile: ViewProfile(DB1),
+      zzzconnect: ZZZConnect(DB2),
+      zzzdate: ZZZDate(DB3),
+      zzzlevel: ZZZLevel(DB4),
     }
 
     // Push the data to Discord.

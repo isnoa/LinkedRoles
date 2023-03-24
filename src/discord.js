@@ -94,7 +94,7 @@ export async function getUserData(tokens) {
     const data = await response.json();
     return data;
   } else {
-    throw new Error(`너에 관한 데이터를 가져오는 동안 오류가 발생했어: [${response.status}] ${response.statusText}`);
+    throw new Error(`너에 관한 데이터를 가져오는 과정에서 오류가 발생했어: [${response.status}] ${response.statusText}`);
   }
 }
 
