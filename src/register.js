@@ -18,19 +18,19 @@ const body = [
   {
     key: 'zzzconnect',
     name: 'ZZZ 연동',
-    description: 'ZZZ 연동 여부 확인',
+    description: '게임과 연동 여부 확인',
     type: 7,
   },
   {
     key: 'zzzdate',
     name: '연동 일자',
-    description: 'ZZZ 연동 일자 확인',
+    description: '연동 일자가 동일 혹은 더 높은지 확인',
     type: 6,
   },
   {
     key: 'zzzlevel',
     name: '레벨',
-    description: 'ZZZ 레벨 확인 (더 높거나 동일)',
+    description: '게임 레벨이 동일 혹은 더 높은지 확인',
     type: 2,
   },
 ];
@@ -47,7 +47,7 @@ if (response.ok) {
   const data = await response.json();
   console.log(data);
 } else {
-  //throw new Error(`Error pushing discord metadata schema: [${response.status}] ${response.statusText}`);
   const data = await response.text();
   console.log(data);
+  throw new Error(`Discord metadata 스키마를 푸시하는 중 오류 발생: [${response.status}] ${response.statusText}`);
 }

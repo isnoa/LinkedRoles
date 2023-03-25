@@ -7,7 +7,7 @@ import * as discord from './discord.js';
 import * as storage from './storage.js';
 
 mongoose.connect(process.env.MONGOOSE_URI, { useNewUrlParser: true })
-  .then(() => console.log('MongoDB Conneted'))
+  .then(() => console.log('MongoDB Conneted.'))
   .catch(err => console.log(err));
 
 /**
